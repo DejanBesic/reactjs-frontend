@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 const login = (user) => {
-  fetch("http://localhost:8082/login/post", {
-    method: 'post',
-    body: JSON.stringify(user),
-    headers:{
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    // mode: 'cors'
-  })
-  .then((res) => {console.log(res)})
+  axios.post("http://localhost:8082/login", user)
+  .then((response) => console.log(response.data))
   .catch((err) => {console.log(err)});
 }
 
@@ -32,7 +25,7 @@ class App extends Component {
       user: {
         ...this.state.user,
         username: evt.target.value,
-      }
+     }
     });
   }
 
