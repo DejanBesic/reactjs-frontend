@@ -25,7 +25,8 @@ export default function(state = initialState, action) {
                 ...state,
                 isAuthenticating: false,
                 token: action.payload.token,
-                user: action.payload.user
+                user: action.payload.user,
+                error: "",
             };
 
         case AuthenticationFailure:
