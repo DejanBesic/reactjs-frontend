@@ -44,3 +44,22 @@ export const login = (user) => (dispatch, getState) => {
         dispatch(onAuthenticationFailure(err));
     });
 }
+
+
+/*      LOGOUT      */
+
+export const LogoutStart = "LogoutStart";
+export const onLogoutStart = () => 
+    ({ type: LogoutStart})
+
+export const LogoutSuccess = "LogoutSuccess";
+export const onLogoutSuccess = () => 
+    ({ type: LogoutSuccess })
+
+export const LogoutFailure = "LogoutFailure";
+export const onLogoutFailure = (payload) => 
+    ({ payload: payload, type: LogoutFailure })
+
+export const onLogout = () => (dispatch, getState) => {
+    dispatch(onLogoutSuccess());
+}

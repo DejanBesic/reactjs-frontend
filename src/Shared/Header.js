@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
+import { onLogout } from '../store/actions/authentication';
+
+import "./SharedCSS/Header.css";
+
 
 const li = {
     display: 'inline-block',
-    marginRight: 30,
+    paddingRight: 30,
     paddingTop: 10,
 }
 
@@ -12,36 +16,41 @@ const li = {
 class Header extends Component {
 
     loginAndRegister = () => 
-        <div>
+        <ul style={{listStyleType: 'none', display: 'inline-block', float: 'right'}}>
             <li style={li}>
                 <Link to="/login">Login</Link>
             </li>
             <li style={li}>
             <Link to="/register">Register</Link>
             </li>
-        </div>
+        </ul>
     render() {
         return(
             <div className="row">
                 <div style={{background: 'black', flex: 1}}>
-                    <ul style={{listStyleType: 'none', display: 'inline-block'}}>
-                        {this.props.user ? 
-                            <li>
-                                <a href="https://www.google.com">{this.props.user.username}</a>
-                            </li>
-                            :
-                             this.loginAndRegister()
-                        }
-                    </ul>
+                {this.props.user ? 
+                    <div className="dropdown">
+                        <button className="dropbtn btn-primary">{this.props.user.username}</button>
+                        <div className="dropdown-content">
+                           <a onClick={() => this.props.logout()} style={{cursor: 'pointer'}}>Logout</a>
+                           <Link to="/settings">Settings</Link>
+                        </div>
+                    </div>
+                    :
+                        this.loginAndRegister()
+                }
                 </div>
             </div>
         );
     }
 }
 
+const mapDispatch = (dispatch) => ({
+    logout: () => dispatch(onLogout()),
+});
 
 const mapState = (state) => ({
     user: state.authentication.user,
 });
 
-export default connect(mapState, null)(Header);
+export default connect(mapState, mapDispatch)(Header);

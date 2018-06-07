@@ -1,11 +1,15 @@
 import {
     AuthenticationStart,
     AuthenticationSuccess,
-    AuthenticationFailure
+    AuthenticationFailure,
+    LogoutStart,
+    LogoutSuccess,
+    LogoutFailure,
 } from '../actions/authentication';
 
 export const initialState = {
     isAuthenticating: false,
+    isLoggingOut: false,
     error: "",
     token: "",    
     user: "",
@@ -35,6 +39,27 @@ export default function(state = initialState, action) {
                 isAuthenticating: false,
                 error: action.payload,
                 token: "",
+            };
+
+        case LogoutStart: 
+            return {
+                ...state,
+                isLoggingOut: true,
+            };
+
+        case LogoutSuccess: 
+            return {
+                ...state,
+                isLoggingOut: false,
+                user: "",
+                token: "",
+            };
+
+        case LogoutFailure: 
+            return {
+                ...state,
+                isLoggingOut: false,
+                error: action.payload,
             };
 
         default: 
