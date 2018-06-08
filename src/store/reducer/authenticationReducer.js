@@ -59,7 +59,6 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 isLoggingOut: false,
-                error: action.payload,
             };
 
         default: 

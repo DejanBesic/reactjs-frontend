@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { fetchAuth } from '../../api';
+import { fetchAuth, fetchLogout } from '../../api';
 
 export const AuthenticationStart = "AuthenticationStart";
 export const onAuthenticationStart = () => 
@@ -41,10 +41,9 @@ export const login = (user) => (dispatch, getState) => {
       }
     })
     .catch((err) => {
-        dispatch(onAuthenticationFailure(err));
+        dispatch(onAuthenticationFailure("Server error."));
     });
 }
-
 
 /*      LOGOUT      */
 
@@ -57,9 +56,18 @@ export const onLogoutSuccess = () =>
     ({ type: LogoutSuccess })
 
 export const LogoutFailure = "LogoutFailure";
-export const onLogoutFailure = (payload) => 
-    ({ payload: payload, type: LogoutFailure })
+export const onLogoutFailure = () => 
+    ({ type: LogoutFailure })
 
 export const onLogout = () => (dispatch, getState) => {
-    dispatch(onLogoutSuccess());
+    if(getState().authentication.user) {
+        dispatch(onLogoutStart);
+        fetchLogout()
+        .then((response) => {
+            response.data? dispatch(onLogoutSuccess()) : dispatch(onLogoutFailure());
+        })
+        .catch((err) => console.log(err));
+    } else {
+        dispatch(onLogoutSuccess());
+    } 
 }
