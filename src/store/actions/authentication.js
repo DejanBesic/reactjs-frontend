@@ -92,7 +92,7 @@ export const onRegister = (user) => (dispatch, getState) => {
     {
         return;
     }
-
+    debugger
     dispatch(onRegistrationStart());
     fetchSignUp(user)
         .then((response) => {
@@ -107,7 +107,8 @@ export const onRegister = (user) => (dispatch, getState) => {
                 dispatch(onRegistrationFailure(response.data.value));
             }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => dispatch(onRegistrationFailure(err.response.data.value)))
+        .catch(() => dispatch(onRegistrationFailure("Server error")));
 
 }
 

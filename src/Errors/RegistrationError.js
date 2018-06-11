@@ -11,7 +11,7 @@ class RegistrationError extends Component {
     }
 }
 
-LoginError.propTypes = {
+RegistrationError.propTypes = {
     errorMessage: PropTypes.string.isRequired,
 }
 

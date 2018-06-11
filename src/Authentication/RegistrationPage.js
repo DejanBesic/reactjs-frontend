@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Form from '../Shared/Form';
 import { Redirect } from 'react-router-dom';
 import { onRegister } from '../store/actions/authentication';
+import RegistrationError from '../Errors/RegistrationError';
 
 class RegistrationPage extends Component {
     constructor(props){
@@ -95,8 +96,8 @@ class RegistrationPage extends Component {
                         <button type="button" onClick={() => this.props.signUp(this.state.user)} className="btn btn-primary">
                             Sign up
                         </button>
-                        { this.props.authentication.error ? 
-                            <registrationError errorMessage={this.props.authentication.registrationError} />
+                        { this.props.authentication.registrationError ? 
+                            <RegistrationError errorMessage={this.props.authentication.registrationError} />
                         : null }
                     </Form>
                 </div>
@@ -106,7 +107,7 @@ class RegistrationPage extends Component {
 }
 
 RegistrationPage.propTypes = {
-    signUp: PropTypes.func.isRequired,
+    signUp: PropTypes.func.isRequired
 }
 
 const mapDispatch = dispatch => ({
