@@ -5,14 +5,19 @@ import {
     LogoutStart,
     LogoutSuccess,
     LogoutFailure,
+    RegistrationStart,
+    RegistrationSuccess,
+    RegistrationFailure,
 } from '../actions/authentication';
 
 export const initialState = {
     isAuthenticating: false,
     isLoggingOut: false,
+    isRegistrating: false,
     error: "",
     token: "",    
     user: "",
+    registrationError: "",
 };
 
 export default function(state = initialState, action) {
@@ -61,6 +66,27 @@ export default function(state = initialState, action) {
                 isLoggingOut: false,
             };
 
+        case RegistrationStart:
+            return {
+                ...state,
+                isRegistrating: true,
+                registrationError: "",
+            };
+        
+        case RegistrationSuccess:
+            return {
+                ...state,
+                user: action.payload.user,
+                token: action.payload.token,
+                isRegistrating: false,
+            }
+
+        case RegistrationFailure:
+            return {
+                ...state,
+                isRegistrating: false,
+                registrationError: action.payload
+            }
         default: 
             return state;
     }

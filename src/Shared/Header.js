@@ -21,7 +21,7 @@ class Header extends Component {
                 <Link to="/login">Login</Link>
             </li>
             <li style={li}>
-            <Link to="/register">Register</Link>
+                <Link to="/register">Register</Link>
             </li>
         </ul>
     render() {

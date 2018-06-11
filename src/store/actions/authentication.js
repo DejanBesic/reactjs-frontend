@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { fetchAuth, fetchLogout } from '../../api';
+import jwt from 'jsonwebtoken';
+import { fetchAuth, fetchLogout, fetchSignUp } from '../../api';
 
 export const AuthenticationStart = "AuthenticationStart";
 export const onAuthenticationStart = () => 
@@ -15,7 +16,7 @@ export const onAuthenticationFailure = (error) =>
 
 export const setAuthorizationToken = (token) => {
     if (token) {
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        axios.defaults.headers.common['Authorization'] = `${token.tokenType} ${token.accessToken}`;;
     } else {
         delete axios.defaults.headers.common['Authorization'];
     }
@@ -26,18 +27,12 @@ export const login = (user) => (dispatch, getState) => {
     fetchAuth(user)
     .then((response) => {
       const token = response.data;
-      const userDetails = {
-            username: user.username,
-            role: user.role,
-            id: user.id,    
-        };
-
       if(token === -1){
         dispatch(onAuthenticationFailure("Incorrect username or password."));  
       }
       else{
         setAuthorizationToken(token);
-        dispatch(onAuthenticationSuccess({ token: token, user: userDetails }));
+        dispatch(onAuthenticationSuccess({ token: token, user: jwt.decode(token.accessToken) }));
       }
     })
     .catch((err) => {
@@ -64,10 +59,60 @@ export const onLogout = () => (dispatch, getState) => {
         dispatch(onLogoutStart);
         fetchLogout()
         .then((response) => {
-            response.data? dispatch(onLogoutSuccess()) : dispatch(onLogoutFailure());
+            if(response.data){
+                setAuthorizationToken();
+                dispatch(onLogoutSuccess());
+            } else {
+                dispatch(onLogoutFailure());
+            }
         })
         .catch((err) => console.log(err));
     } else {
         dispatch(onLogoutSuccess());
     } 
 }
+
+
+/* REGISTRATION  */
+
+export const RegistrationStart = "RegistrationStart";
+export const onRegistrationStart = () => 
+    ({ type: RegistrationStart });
+
+export const RegistrationSuccess = "RegistrationSuccess";
+export const onRegistrationSuccess = (payload) => 
+    ({ payload: payload, type: RegistrationSuccess });
+
+export const RegistrationFailure = "RegistrationFailure";
+export const onRegistrationFailure = (error) =>
+    ({ payload: error, type: RegistrationFailure })
+
+export const onRegister = (user) => (dispatch, getState) => {
+    if(getState().authentication.user)
+    {
+        return;
+    }
+
+    dispatch(onRegistrationStart());
+    fetchSignUp(user)
+        .then((response) => {
+            if(response.data.registratedSuccesfully){
+                const token = {
+                    tokenType: "Bearer",
+                    accessToken: response.data.value,
+                }
+                setAuthorizationToken(token);
+                dispatch(onRegistrationSuccess({user: parseJwt(token.accessToken), token: token.accessToken}));
+            } else {
+                dispatch(onRegistrationFailure(response.data.value));
+            }
+        })
+        .catch((err) => console.log(err));
+
+}
+
+function parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse(window.atob(base64));
+};
