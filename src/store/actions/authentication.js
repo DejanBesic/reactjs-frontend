@@ -2,6 +2,7 @@ import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import { fetchAuth, fetchLogout, fetchSignUp } from '../../api';
 
+
 export const AuthenticationStart = "AuthenticationStart";
 export const onAuthenticationStart = () => 
     ({ type: AuthenticationStart })
@@ -27,18 +28,14 @@ export const login = (user) => (dispatch, getState) => {
     fetchAuth(user)
     .then((response) => {
       const token = response.data;
-      if(token === -1){
-        dispatch(onAuthenticationFailure("Incorrect username or password."));  
-      }
-      else{
         setAuthorizationToken(token);
         dispatch(onAuthenticationSuccess({ token: token, user: jwt.decode(token.accessToken) }));
-      }
     })
     .catch((err) => {
-        dispatch(onAuthenticationFailure("Server error."));
+        dispatch(onAuthenticationFailure(err.response.data));
     });
 }
+
 
 /*      LOGOUT      */
 
@@ -80,8 +77,8 @@ export const onRegistrationStart = () =>
     ({ type: RegistrationStart });
 
 export const RegistrationSuccess = "RegistrationSuccess";
-export const onRegistrationSuccess = (payload) => 
-    ({ payload: payload, type: RegistrationSuccess });
+export const onRegistrationSuccess = () => 
+    ({ type: RegistrationSuccess });
 
 export const RegistrationFailure = "RegistrationFailure";
 export const onRegistrationFailure = (error) =>
@@ -92,7 +89,7 @@ export const onRegister = (user) => (dispatch, getState) => {
     {
         return;
     }
-    debugger
+
     dispatch(onRegistrationStart());
     fetchSignUp(user)
         .then((response) => {
@@ -102,18 +99,11 @@ export const onRegister = (user) => (dispatch, getState) => {
                     accessToken: response.data.value,
                 }
                 setAuthorizationToken(token);
-                dispatch(onRegistrationSuccess({user: parseJwt(token.accessToken), token: token.accessToken}));
+                dispatch(onRegistrationSuccess());
             } else {
                 dispatch(onRegistrationFailure(response.data.value));
             }
         })
         .catch((err) => dispatch(onRegistrationFailure(err.response.data.value)))
         .catch(() => dispatch(onRegistrationFailure("Server error")));
-
 }
-
-function parseJwt (token) {
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace('-', '+').replace('_', '/');
-    return JSON.parse(window.atob(base64));
-};

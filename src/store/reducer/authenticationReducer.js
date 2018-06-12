@@ -76,8 +76,6 @@ export default function(state = initialState, action) {
         case RegistrationSuccess:
             return {
                 ...state,
-                user: action.payload.user,
-                token: action.payload.token,
                 isRegistrating: false,
             }
 
