@@ -1,10 +1,15 @@
 import axios from 'axios';
 
+const baseUrl = 'http://localhost:1312';
+
 export const fetchAuth = (user) => 
-    (axios.post("http://localhost:1312/api/auth/signin", user))
+    (axios.post(`${baseUrl}/api/auth/signin`, user))
 
 export const fetchLogout = () => 
-    (axios.get("http://localhost:1312/api/auth/signout"))
+    (axios.get(`${baseUrl}/api/auth/signout`))
 
 export const fetchSignUp = (user) => 
-    (axios.post("http://localhost:1312/api/auth/signup", user))
+    (axios.post(`${baseUrl}/api/auth/signup`, user))
+
+export const fetchTypes = () => 
+    (axios.get(`${baseUrl}/api/types`))
