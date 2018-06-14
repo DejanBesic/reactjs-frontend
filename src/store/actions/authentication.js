@@ -53,7 +53,7 @@ export const onLogoutFailure = () =>
 
 export const onLogout = () => (dispatch, getState) => {
     if(getState().authentication.user) {
-        dispatch(onLogoutStart);
+        dispatch(onLogoutStart());
         fetchLogout()
         .then((response) => {
             if(response.data){

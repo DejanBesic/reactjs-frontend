@@ -12,9 +12,9 @@ export const GetTypesFailure = "GetTypesFailure";
 export const onGetTypesFailure = (error) => 
     ({ payload: error, type: GetTypesFailure });
 
-export const onGetTypes = () => (dispatch) => {
-    dispatch(onGetTypesStart);
+export const getTypes = () => (dispatch) => {
+    dispatch(onGetTypesStart());
     fetchTypes()
-        .then((response) => dispatch(onGetTypesSuccess(response)))
+        .then((response) => dispatch(onGetTypesSuccess(response.data)))
         .catch((error) => dispatch(onGetTypesFailure(error)));
 }

@@ -13,3 +13,9 @@ export const fetchSignUp = (user) =>
 
 export const fetchTypes = () => 
     (axios.get(`${baseUrl}/api/types`))
+
+export const fetchFacilities = () => 
+    (axios.get(`${baseUrl}/api/facility`))
+
+export const fetchSearch = (form) => 
+    (axios.post(`${baseUrl}/api/facility/search`, form))
