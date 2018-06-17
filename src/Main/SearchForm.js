@@ -105,7 +105,7 @@ class SearchForm extends Component {
                                 startDateId="startDate"
                                 endDate={this.state.endDate} 
                                 endDateId="endDate"
-                                onDatesChange={({ startDate, endDate }) => this.setState({ startDate, endDate })}
+                                onDatesChange={({ startDate, endDate }) => this.setState({ startDate: startDate, endDate: endDate })}
                                 focusedInput={focused}
                                 onFocusChange={focused => this.setState({ focused })}
                                 displayFormat="DD-MM-YYYY"

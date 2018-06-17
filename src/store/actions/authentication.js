@@ -51,6 +51,9 @@ export const LogoutFailure = "LogoutFailure";
 export const onLogoutFailure = () => 
     ({ type: LogoutFailure })
 
+export const ResetRegistrated = "ResetRegistrated";
+export const onResetRegistrated = () => 
+    ({ type: ResetRegistrated })
 export const onLogout = () => (dispatch, getState) => {
     if(getState().authentication.user) {
         dispatch(onLogoutStart());

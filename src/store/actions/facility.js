@@ -16,7 +16,7 @@ export const onGetFacilitesFailure = (error) =>
 export const getFacilities = () => (dispatch) => {
     dispatch(onGetFacilitesStart());
     fetchFacilities()
-        .then((facilities) => dispatch(onGetFacilitesSuccess(facilities)))
+        .then((facilities) => dispatch(onGetFacilitesSuccess(facilities.data)))
         .catch((error) => dispatch(onGetFacilitesFailure(error)));
 }
 
@@ -24,5 +24,5 @@ export const search = (form) => (dispatch) => {
     dispatch(onGetFacilitesStart());
     fetchSearch(form)
         .then((faciliteis) => dispatch(onGetFacilitesSuccess(faciliteis.data)))
-        .catch((error) => dispatch(onGetFacilitesFailure(error)));
+        .catch((error) => dispatch(onGetFacilitesFailure(error.response.data)));
 }

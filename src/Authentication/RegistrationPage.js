@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Form from '../Shared/Form';
 import { Redirect } from 'react-router-dom';
-import { onRegister } from '../store/actions/authentication';
+import { onRegister, onResetRegistrated } from '../store/actions/authentication';
 import RegistrationError from '../Errors/RegistrationError';
 
 class RegistrationPage extends Component {
@@ -48,6 +48,11 @@ class RegistrationPage extends Component {
     render() {
         if(this.props.authentication.user){
             return( <Redirect to={"/main"} /> );
+        }
+
+        if(this.props.authentication.registrated){
+            this.props.reset();
+            return (<Redirect to={"/login"} />)
         }
 
         return(
@@ -112,6 +117,7 @@ RegistrationPage.propTypes = {
 
 const mapDispatch = dispatch => ({
     signUp: (user) => dispatch(onRegister(user)),
+    reset: () => dispatch(onResetRegistrated()),
 });
 
 const mapState = (state) => ({

@@ -8,12 +8,14 @@ import {
     RegistrationStart,
     RegistrationSuccess,
     RegistrationFailure,
+    ResetRegistrated
 } from '../actions/authentication';
 
 export const initialState = {
     isAuthenticating: false,
     isLoggingOut: false,
     isRegistrating: false,
+    registrated: false,
     error: "",
     token: "",    
     user: "",
@@ -77,6 +79,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 isRegistrating: false,
+                registrated: true,
             }
 
         case RegistrationFailure:
@@ -85,6 +88,13 @@ export default function(state = initialState, action) {
                 isRegistrating: false,
                 registrationError: action.payload
             }
+        
+        case ResetRegistrated:
+            return {
+                ...state,
+                registrated: false,
+            }
+        
         default: 
             return state;
     }

@@ -16,7 +16,7 @@ class MainPage extends Component {
                     <SearchForm />
                 </div>
                 <div className="col-4">
-                    <h1>MAIN PAGE</h1>
+                    
                 </div>
             </div>
         );
@@ -32,6 +32,7 @@ const mapDispatch = dispatch => ({
 });
 
 const mapState = (state) => ({
+    facilities: state.facilities,
 });
 
 export default connect(mapState, mapDispatch)(MainPage);
