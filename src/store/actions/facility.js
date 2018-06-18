@@ -1,28 +1,28 @@
-import { fetchSearch, fetchFacilities } from '../../api';
+import { fetchSearch, fetchAppointments } from '../../api';
 
-export const GetFacilitiesStart = "GetFacilitiesStart";
+export const GetAppointmentsStart = "GetAppointmentsStart";
 export const onGetFacilitesStart = () => 
-    ({ type: GetFacilitiesStart })
+    ({ type: GetAppointmentsStart })
 
-export const GetFacilitiesSuccess = "GetFacilitiesSuccess";
-export const onGetFacilitesSuccess = (faciliteis) => 
-    ({ payload: faciliteis, type: GetFacilitiesSuccess })
+export const GetAppointmentsSuccess = "GetAppointmentsSuccess";
+export const onGetFacilitesSuccess = (appointments) => 
+    ({ payload: appointments, type: GetAppointmentsSuccess })
 
 
-export const GetFacilitiesFailure = "GetFacilitiesFailure";
+export const GetAppointmentsFailure = "GetAppointmentsFailure";
 export const onGetFacilitesFailure = (error) => 
-    ({ payload: error, type: GetFacilitiesFailure })
+    ({ payload: error, type: GetAppointmentsFailure })
 
-export const getFacilities = () => (dispatch) => {
+export const getAppointments = () => (dispatch) => {
     dispatch(onGetFacilitesStart());
-    fetchFacilities()
-        .then((facilities) => dispatch(onGetFacilitesSuccess(facilities.data)))
+    fetchAppointments()
+        .then((appointments) => dispatch(onGetFacilitesSuccess(appointments.data)))
         .catch((error) => dispatch(onGetFacilitesFailure(error)));
 }
 
 export const search = (form) => (dispatch) => {
     dispatch(onGetFacilitesStart());
     fetchSearch(form)
-        .then((faciliteis) => dispatch(onGetFacilitesSuccess(faciliteis.data)))
+        .then((appointments) => dispatch(onGetFacilitesSuccess(appointments.data)))
         .catch((error) => dispatch(onGetFacilitesFailure(error.response.data)));
 }

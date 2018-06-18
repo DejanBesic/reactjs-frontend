@@ -2,6 +2,7 @@ import {
     AuthenticationStart,
     AuthenticationSuccess,
     AuthenticationFailure,
+    LoginReset,
     LogoutStart,
     LogoutSuccess,
     LogoutFailure,
@@ -93,6 +94,13 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 registrated: false,
+                registrationError: "",
+            }
+
+        case LoginReset:
+            return {
+                ...state,
+                error: "",
             }
         
         default: 

@@ -45,13 +45,16 @@ class RegistrationPage extends Component {
         });
     }
 
+    componentWillUnmount() {
+        this.props.reset();
+    }
+
     render() {
         if(this.props.authentication.user){
             return( <Redirect to={"/main"} /> );
         }
 
         if(this.props.authentication.registrated){
-            this.props.reset();
             return (<Redirect to={"/login"} />)
         }
 

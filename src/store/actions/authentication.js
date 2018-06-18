@@ -36,6 +36,11 @@ export const login = (user) => (dispatch, getState) => {
     });
 }
 
+export const LoginReset = "LoginReset";
+export const onLoginReset = () => 
+    ({ type: LoginReset })
+    
+
 
 /*      LOGOUT      */
 
@@ -51,9 +56,6 @@ export const LogoutFailure = "LogoutFailure";
 export const onLogoutFailure = () => 
     ({ type: LogoutFailure })
 
-export const ResetRegistrated = "ResetRegistrated";
-export const onResetRegistrated = () => 
-    ({ type: ResetRegistrated })
 export const onLogout = () => (dispatch, getState) => {
     if(getState().authentication.user) {
         dispatch(onLogoutStart());
@@ -110,3 +112,9 @@ export const onRegister = (user) => (dispatch, getState) => {
         .catch((err) => dispatch(onRegistrationFailure(err.response.data.value)))
         .catch(() => dispatch(onRegistrationFailure("Server error")));
 }
+
+
+export const ResetRegistrated = "ResetRegistrated";
+export const onResetRegistrated = () => 
+    ({ type: ResetRegistrated })
+    

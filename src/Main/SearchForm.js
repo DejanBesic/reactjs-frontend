@@ -131,7 +131,7 @@ class SearchForm extends Component {
                     <div className="form-group" style={{textAlign: 'left'}}>
                         <label className="search-text">Type: </label>
                         <select className="form-control" onChange={this.onTypeChange} value={this.state.type}>
-                            <option value="-1" key="-1">Select type...</option>
+                            <option value="-1" defaultValue key="-1">Select type...</option>
                             {this.props.types.map(type => 
                                 <option value={type.id} key={type.id}>{type.name}</option>)
                             }
@@ -143,7 +143,7 @@ class SearchForm extends Component {
                     <div className="form-group" style={{textAlign: 'left'}}>
                         <label className="search-text">Category: </label>
                         <select className="form-control" onChange={this.onCategoryChange} value={this.state.category}>
-                            <option value="-1" key="-1">Select category...</option>
+                            <option value="-1" defaultValue key="-1">Select category...</option>
                             <option value="0" key="0">Uncategorized</option>
                             {this.categories.map(category => 
                                 <option value={category} key={category}>{category} star</option>)

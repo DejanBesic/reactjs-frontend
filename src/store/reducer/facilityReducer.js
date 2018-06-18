@@ -1,11 +1,11 @@
 import {
-    GetFacilitiesStart,
-    GetFacilitiesSuccess,
-    GetFacilitiesFailure
+    GetAppointmentsStart,
+    GetAppointmentsSuccess,
+    GetAppointmentsFailure
 } from '../actions/facility';
 
 export const initialState = {
-    facilities: [],
+    appointments: [],
     isLoading: false,
     error: "",
 };
@@ -13,21 +13,21 @@ export const initialState = {
 export default function(state = initialState, action) {
     switch(action.type){
 
-        case GetFacilitiesStart:
+        case GetAppointmentsStart:
             return {
                 ...state,
                 isLoading: true,
             };
 
-        case GetFacilitiesSuccess:
+        case GetAppointmentsSuccess:
             return {
                 ...state,
                 isLoading: false,
-                facilities: action.payload,
+                appointments: action.payload,
                 error: "",
             };
 
-        case GetFacilitiesFailure:
+        case GetAppointmentsFailure:
             return {
                 ...state,
                 isLoading: false,

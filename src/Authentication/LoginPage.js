@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import { login } from '../store/actions/authentication';
+import { login, onLoginReset } from '../store/actions/authentication';
 import Form from '../Shared/Form';
 import LoginError from '../Errors/LoginError';
 
@@ -19,22 +19,27 @@ class LoginPage extends Component {
     }
     
     usernameChange = (evt) => {
-    this.setState({
-        user: {
-        ...this.state.user,
-        usernameOrEmail: evt.target.value,
-        }
-    });
+        this.setState({
+            user: {
+            ...this.state.user,
+            usernameOrEmail: evt.target.value,
+            }
+        });
     }
     
     passwordChange = (evt) => {
-    this.setState({
-        user: {
-        ...this.state.user,
-        password: evt.target.value,
-        }
-    });
+        this.setState({
+            user: {
+            ...this.state.user,
+            password: evt.target.value,
+            }
+        });
     }
+
+    componentWillUnmount(){
+        this.props.reset();
+    }
+
 
     render(){
         if(this.props.authentication.user){
@@ -88,10 +93,12 @@ class LoginPage extends Component {
 
 LoginPage.propTypes = {
     login: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
 }
 
 const mapDispatch = dispatch => ({
     login: (user) => dispatch(login(user)),
+    reset: () => dispatch(onLoginReset()),
 });
 
 const mapState = (state) => ({
